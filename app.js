@@ -11,8 +11,8 @@ $(document).ready( function() {
 		// zero out results if previous search has run
 		$('.results').html('');
 		// get the value of the tags the user submitted
-		var tags = $(this).find("input[name='tags']").val();
-		getInspiration(tags);
+		var answerers = $(this).find("input[name='answerers']").val();
+		getUser(answerers);
 	});
 });
 
@@ -96,10 +96,10 @@ var showError = function(error){
 
 // takes a string of semi-colon separated tags to be searched
 // for on StackOverflow
-var getUnanswered = function(tags) {
+var getUnanswered = function(tagName) {
 	
 	// the parameters we need to pass in our request to StackOverflow's API
-	var request = {tagged: tags,
+	var request = {tagged: tagName,
 								site: 'stackoverflow',
 								order: 'desc',
 								sort: 'creation'};
@@ -126,7 +126,7 @@ var getUnanswered = function(tags) {
 	});
 };
 
-var getInspiration = function(tags) {
+var getUser = function(tags) {
 	
 	// the parameters we need to pass in our request to StackOverflow's API
 	var request = {tagged: tags,

@@ -49,33 +49,19 @@ var showQuestion = function(question) {
 	return result;
 };
 
-var showUser= function(question) {
+var showUser= function(user) {
 	
 	// clone our result template code
-	var result = $('.templates .inspiration').clone();
-	
-	// Set the question properties in result
-	var questionElem = result.find('.user-name a');
-	questionElem.attr('href', question.link);
-	questionElem.text(answer.title);
+	var result = $('.templates .users').clone();
 
-	// set the date asked property in result
-	var asked = result.find('.asked-date');
-	var date = new Date(1000*question.creation_date);
-	asked.text(date.toString());
-
-	// set the #views for question property in result
-	var viewed = result.find('.viewed');
-	viewed.text(question.view_count);
-
-	// set some properties related to asker
-	var asker = result.find('.asker');
-	asker.html('<p>Name: <a target="_blank" href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
-													question.owner.display_name +
-												'</a>' +
-							'</p>' +
- 							'<p>Reputation: ' + question.owner.reputation + '</p>'
+	// set the avatar for the user
+	var asker = result.find('.user-name');
+	asker.html('<p>Name: <a target="_blank" href=' + user.link+ '>' + user.display_name + '</a></p>'
+ 							// '<p>Avatar: ' + user.profile_image+ '</p>'
 	);
+
+	var avatar = result.find('.avatar');
+	avatar.html('<img src='+user.profile_image+'>');
 
 	return result;
 };
@@ -146,10 +132,10 @@ var getUser = function(tags) {
 
 		$('.search-results').html(inspResults);
 
-		$.each(result.items, function(i, item) {
-			var question = showUser(item);
-			$('.results').append(question);
-		});
+		for (var i = 0; i < result.items.length; i++) {
+			var user = showUser(result.items[i].user);
+			$('.results').append(user);
+		}
 	})
 	.fail(function(jqXHR, error, errorThrown){
 		var errorElem = showError(error);
